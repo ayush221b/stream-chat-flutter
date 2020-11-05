@@ -18,8 +18,11 @@ dependencies:
   cached_network_image: ^2.2.0+1
   flutter_markdown: ^0.4.2
   url_launcher: ^5.4.11
-  video_player: ^0.10.11+1
-  chewie: ^0.9.10
+  video_player: ^0.11.1+2
+  chewie:
+    git:
+      url: https://github.com/ayush221b/chewie.git
+      ref: 42186b067a41cc9c1ae10d6c19b4891104d61ccf
   file_picker: ^2.0.0
   image_picker: ^0.6.7+2
   flutter_keyboard_visibility: ^3.2.1
