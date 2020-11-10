@@ -40,7 +40,7 @@ class UserAvatar extends StatelessWidget {
           ),
           child: user.extraData?.containsKey('image') ?? false
               ? CachedNetworkImage(
-                  imageUrl: user.extraData['image'],
+                  imageUrl: user.extraData['image'] ?? '',
                   errorWidget: (_, __, ___) {
                     return Center(
                       child: Text(
