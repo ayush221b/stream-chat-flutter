@@ -171,18 +171,19 @@ class StreamChatThemeData {
             this.channelTheme,
         ownMessageTheme: ownMessageTheme?.copyWith(
               messageText: ownMessageTheme?.messageText ??
-                  this.ownMessageTheme.messageText,
+                  this.ownMessageTheme?.messageText,
               messageAuthor: ownMessageTheme?.messageAuthor ??
-                  this.ownMessageTheme.messageAuthor,
+                  this.ownMessageTheme?.messageAuthor,
               messageLinks: ownMessageTheme?.messageLinks ??
-                  this.ownMessageTheme.messageLinks,
+                  this.ownMessageTheme?.messageLinks,
               createdAt:
-                  ownMessageTheme?.createdAt ?? this.ownMessageTheme.createdAt,
-              replies: ownMessageTheme?.replies ?? this.ownMessageTheme.replies,
+                  ownMessageTheme?.createdAt ?? this.ownMessageTheme?.createdAt,
+              replies:
+                  ownMessageTheme?.replies ?? this.ownMessageTheme?.replies,
               messageBackgroundColor: ownMessageTheme?.messageBackgroundColor ??
-                  this.ownMessageTheme.messageBackgroundColor,
+                  this.ownMessageTheme?.messageBackgroundColor,
               avatarTheme: ownMessageTheme?.avatarTheme ??
-                  this.ownMessageTheme.avatarTheme,
+                  this.ownMessageTheme?.avatarTheme,
             ) ??
             this.ownMessageTheme,
         otherMessageTheme: otherMessageTheme?.copyWith(
