@@ -93,6 +93,8 @@ class MessageInput extends StatefulWidget {
     this.actions,
     this.actionsLocation = ActionsLocation.left,
     this.attachmentThumbnailBuilders,
+    this.onChatInputChanged,
+    this.onSendButtonPress,
   }) : super(key: key);
 
   /// Message to edit
@@ -137,6 +139,12 @@ class MessageInput extends StatefulWidget {
 
   /// Map that defines a thumbnail builder for an attachment type
   final Map<String, AttachmentThumbnailBuilder> attachmentThumbnailBuilders;
+
+  /// Callback to fire when content of the input text field is changed
+  final VoidCallback onChatInputChanged;
+
+  /// Callback to fire on press of send button
+  final VoidCallback onSendButtonPress;
 
   @override
   MessageInputState createState() => MessageInputState();
@@ -244,6 +252,9 @@ class MessageInputState extends State<MessageInput> {
           controller: textEditingController,
           focusNode: _focusNode,
           onChanged: (s) {
+            if (widget.onChatInputChanged != null) {
+              widget.onChatInputChanged();
+            }
             StreamChannel.of(context).channel.keyStroke();
 
             setState(() {
@@ -845,6 +856,9 @@ class MessageInputState extends State<MessageInput> {
         child: IconButton(
           key: Key('sendButton'),
           onPressed: () {
+            if (widget.onSendButtonPress != null) {
+              widget.onSendButtonPress();
+            }
             sendMessage();
           },
           icon: Icon(
