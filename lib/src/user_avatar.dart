@@ -42,17 +42,19 @@ class UserAvatar extends StatelessWidget {
               ? CachedNetworkImage(
                   imageUrl: user.extraData['image'] ?? '',
                   errorWidget: (_, __, ___) {
-                    return Center(
-                      child: Text(
-                        user.extraData?.containsKey('name') ?? false
-                            ? user.extraData['name'][0]
-                            : '',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    );
+                    return StreamChatTheme.of(context)
+                            .defaultUserImage(context, user) ??
+                        Center(
+                          child: Text(
+                            user.extraData?.containsKey('name') ?? false
+                                ? user.extraData['name'][0]
+                                : '',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
                   },
                   fit: BoxFit.cover,
                 )

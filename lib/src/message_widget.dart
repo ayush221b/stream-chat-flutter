@@ -108,6 +108,7 @@ class MessageWidget extends StatefulWidget {
   final bool showDeleteMessage;
   final bool showEditMessage;
   final Map<String, AttachmentBuilder> attachmentBuilders;
+  final bool showReadList;
 
   MessageWidget({
     Key key,
@@ -140,6 +141,7 @@ class MessageWidget extends StatefulWidget {
     this.padding,
     this.textPadding = const EdgeInsets.all(8.0),
     this.attachmentPadding = EdgeInsets.zero,
+    this.showReadList = true,
   })  : attachmentBuilders = {
           'image': (context, message, attachment) {
             return ImageAttachment(

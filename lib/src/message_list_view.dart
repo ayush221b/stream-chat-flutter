@@ -105,6 +105,8 @@ class MessageListView extends StatefulWidget {
     this.dateDividerBuilder,
     this.scrollPhysics = const AlwaysScrollableScrollPhysics(),
     this.keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
+    this.showReadList = true,
+    this.onUserAvatarTap,
   }) : super(key: key);
 
   /// Function used to build a custom message widget
@@ -128,6 +130,12 @@ class MessageListView extends StatefulWidget {
 
   /// The ScrollPhysics used by the ListView
   final ScrollPhysics scrollPhysics;
+
+  // Flag to control the display of read list below messages
+  final bool showReadList;
+
+  // Callback to execute when a user avatar is tapped
+  final void Function(User) onUserAvatarTap;
 
   /// The [ScrollViewKeyboardDismissBehavior] used by the ListView
   final ScrollViewKeyboardDismissBehavior keyboardDismissBehavior;
@@ -295,7 +303,10 @@ class _MessageListViewState extends State<MessageListView> {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Container(), // Hiding the progress indicator
+                child: Container(
+                  height: 0,
+                  width: 0,
+                ), // Hiding the progress indicator
               ),
             );
           }),
@@ -454,6 +465,7 @@ class _MessageListViewState extends State<MessageListView> {
       message: message,
       reverse: isMyMessage,
       showReactions: !message.isDeleted,
+      onUserAvatarTap: widget.onUserAvatarTap,
       padding: EdgeInsets.only(
         left: 8.0,
         right: 8.0,
@@ -481,6 +493,7 @@ class _MessageListViewState extends State<MessageListView> {
           ? StreamChatTheme.of(context).ownMessageTheme
           : StreamChatTheme.of(context).otherMessageTheme,
       readList: readList,
+      showReadList: widget.showReadList,
     );
   }
 
