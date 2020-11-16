@@ -95,6 +95,7 @@ class MessageInput extends StatefulWidget {
     this.attachmentThumbnailBuilders,
     this.onChatInputChanged,
     this.onSendButtonPress,
+    this.inputTextStyle,
   }) : super(key: key);
 
   /// Message to edit
@@ -145,6 +146,9 @@ class MessageInput extends StatefulWidget {
 
   /// Callback to fire on press of send button
   final VoidCallback onSendButtonPress;
+
+  /// Custom textStyle for textfield
+  final TextStyle inputTextStyle;
 
   @override
   MessageInputState createState() => MessageInputState();
@@ -287,7 +291,7 @@ class MessageInputState extends State<MessageInput> {
               _typingStarted = true;
             });
           },
-          style: Theme.of(context).textTheme.bodyText2,
+          style: widget.inputTextStyle ?? Theme.of(context).textTheme.bodyText2,
           autofocus: false,
           decoration: InputDecoration(
             hintText: 'Write a message',
