@@ -295,7 +295,7 @@ class _MessageListViewState extends State<MessageListView> {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: CircularProgressIndicator(),
+                child: Container(), // Hiding the progress indicator
               ),
             );
           }),
