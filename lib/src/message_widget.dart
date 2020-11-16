@@ -392,7 +392,8 @@ class _MessageWidgetState extends State<MessageWidget> {
               ),
             ),
           ),
-          if (widget.readList?.isNotEmpty == true)
+          if (widget.readList?.isNotEmpty == true &&
+              (widget.showReadList ?? true))
             SizedBox.fromSize(
               size: Size((widget.readList.length * 10.0) + 10, 17),
               child: Transform(
