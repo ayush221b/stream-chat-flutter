@@ -30,12 +30,14 @@ class StreamChat extends StatefulWidget {
   final Client client;
   final Widget child;
   final StreamChatThemeData streamChatThemeData;
+  final bool shouldToggleConnectionOnAppStateChange;
 
   StreamChat({
     Key key,
     @required this.client,
     @required this.child,
     this.streamChatThemeData,
+    this.shouldToggleConnectionOnAppStateChange = true,
   }) : super(
           key: key,
         );
@@ -61,6 +63,9 @@ class StreamChat extends StatefulWidget {
 /// The current state of the StreamChat widget
 class StreamChatState extends State<StreamChat> with WidgetsBindingObserver {
   Client get client => widget.client;
+
+  bool get _shouldToggleConnectionOnAppStateChange =>
+      widget.shouldToggleConnectionOnAppStateChange ?? false;
   Timer _disconnectTimer;
 
   @override
@@ -176,6 +181,9 @@ class StreamChatState extends State<StreamChat> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (!_shouldToggleConnectionOnAppStateChange) {
+      return;
+    }
     if (client.state?.user != null) {
       if (state == AppLifecycleState.paused) {
         if (client.showLocalNotification != null) {
