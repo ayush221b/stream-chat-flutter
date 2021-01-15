@@ -63,17 +63,25 @@ class ChannelListView extends StatefulWidget {
     this.channelPreviewBuilder,
     this.separatorBuilder,
     this.errorBuilder,
+    this.emptyBuilder,
     this.onImageTap,
+    this.loadingBuilder,
     this.pullToRefresh = true,
   }) : super(key: key);
 
   /// The builder that will be used in case of error
   final Widget Function(Error error) errorBuilder;
 
+  /// The builder used when the channel list is empty.
+  final WidgetBuilder emptyBuilder;
+
   /// The query filters to use.
   /// You can query on any of the custom fields you've defined on the [Channel].
   /// You can also filter other built-in channel fields.
   final Map<String, dynamic> filter;
+
+  /// The builder used while loading.
+  final WidgetBuilder loadingBuilder;
 
   /// Query channels options.
   ///
@@ -220,9 +228,11 @@ class _ChannelListViewState extends State<ChannelListView>
                     constraints: BoxConstraints(
                       minHeight: viewportConstraints.maxHeight,
                     ),
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    child: widget.loadingBuilder != null
+                        ? widget.loadingBuilder(context)
+                        : Center(
+                            child: CircularProgressIndicator(),
+                          ),
                   ),
                 );
               },
@@ -231,7 +241,11 @@ class _ChannelListViewState extends State<ChannelListView>
 
           final channels = snapshot.data;
 
-          if (channels.isEmpty) {
+          if (channels.isEmpty && widget.emptyBuilder != null) {
+            return widget.emptyBuilder(context);
+          }
+
+          if (channels.isEmpty && widget.emptyBuilder == null) {
             return LayoutBuilder(
               builder: (context, viewportConstraints) {
                 return SingleChildScrollView(
@@ -308,23 +322,9 @@ class _ChannelListViewState extends State<ChannelListView>
           builder: (context) {
             Widget child;
             if (widget.channelPreviewBuilder != null) {
-              child = Stack(
-                children: [
-                  widget.channelPreviewBuilder(
-                    context,
-                    channel,
-                  ),
-                  Positioned.fill(
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {
-                          onTap(channel, widget.channelWidget);
-                        },
-                      ),
-                    ),
-                  ),
-                ],
+              child = widget.channelPreviewBuilder(
+                context,
+                channel,
               );
             } else {
               child = ChannelPreview(
@@ -345,6 +345,9 @@ class _ChannelListViewState extends State<ChannelListView>
         ),
       );
     } else {
+      if (widget.loadingBuilder != null) {
+        return widget.loadingBuilder(context);
+      }
       return _buildQueryProgressIndicator(context, channelsProvider);
     }
   }
