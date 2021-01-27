@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chewie/chewie.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/src/full_screen_video.dart';
 import 'package:stream_chat_flutter/src/utils.dart';
@@ -26,59 +26,10 @@ class VideoAttachment extends StatefulWidget {
 }
 
 class _VideoAttachmentState extends State<VideoAttachment> {
-  ChewieController _chewieController;
-  VideoPlayerController _videoPlayerController;
-  bool initialized = false;
+  FlickManager _flickManager;
 
   @override
   Widget build(BuildContext context) {
-    if (!initialized) {
-      return Container(
-        height: widget.size?.height ?? 100,
-        width: widget.size?.width ?? 100,
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-    _chewieController = ChewieController(
-        videoPlayerController: _videoPlayerController,
-        autoInitialize: true,
-        showControls: false,
-        aspectRatio: _videoPlayerController.value.aspectRatio,
-        errorBuilder: (_, e) {
-          if (widget.attachment.thumbUrl != null) {
-            return Stack(
-              children: <Widget>[
-                Container(
-                  height: widget.size?.height,
-                  width: widget.size?.width,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: CachedNetworkImageProvider(
-                        widget.attachment.thumbUrl,
-                      ),
-                    ),
-                  ),
-                ),
-                if (widget.attachment.titleLink != null)
-                  Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () =>
-                          launchURL(context, widget.attachment.titleLink),
-                    ),
-                  ),
-              ],
-            );
-          }
-          return AttachmentError(
-            attachment: widget.attachment,
-            size: widget.size,
-          );
-        });
-
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -103,8 +54,8 @@ class _VideoAttachmentState extends State<VideoAttachment> {
                 fit: BoxFit.cover,
                 child: Stack(
                   children: <Widget>[
-                    Chewie(
-                      controller: _chewieController,
+                    FlickVideoPlayer(
+                      flickManager: _flickManager,
                     ),
                     Positioned.fill(
                       child: Center(
@@ -138,19 +89,15 @@ class _VideoAttachmentState extends State<VideoAttachment> {
   @override
   void initState() {
     super.initState();
-    _videoPlayerController =
-        VideoPlayerController.network(widget.attachment.assetUrl);
-    _videoPlayerController.initialize().whenComplete(() {
-      setState(() {
-        initialized = true;
-      });
-    });
+    _flickManager = FlickManager(
+        autoPlay: false,
+        videoPlayerController:
+            VideoPlayerController.network(widget.attachment.assetUrl));
   }
 
   @override
   void dispose() {
-    _videoPlayerController?.dispose();
-    _chewieController?.dispose();
+    _flickManager?.dispose();
     super.dispose();
   }
 }

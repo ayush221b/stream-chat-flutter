@@ -24,10 +24,11 @@ dependencies:
       url: https://github.com/ayush221b/plugins.git
       path: packages/video_player/video_player
       ref: f93cfee154c0eea639276669f72283fe9db5b2a9
-  chewie: #^0.12.0
+  # The custom video player
+  flick_video_player:
     git:
-      url: https://github.com/ayush221b/chewie.git
-      ref: 019cd9c6d8d214ac2129279a160db39c483a70c3
+      url: https://github.com/ayush221b/flick-video-player.git
+      ref: b092b0da78e51bad1db7fb76cf2b10d11c7be373
   file_picker: ^2.0.12
   image_picker: ^0.6.7+2
   flutter_keyboard_visibility: ^4.0.1

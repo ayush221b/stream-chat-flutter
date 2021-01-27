@@ -1,9 +1,7 @@
-import 'package:chewie/chewie.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'package:video_player/video_player.dart';
-
-import 'utils.dart';
 
 class FullScreenVideo extends StatefulWidget {
   final Attachment attachment;
@@ -18,9 +16,7 @@ class FullScreenVideo extends StatefulWidget {
 }
 
 class _FullScreenVideoState extends State<FullScreenVideo> {
-  ChewieController _chewieController;
-  VideoPlayerController _videoPlayerController;
-  bool initialized = false;
+  FlickManager _flickManager;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
@@ -35,13 +31,8 @@ class _FullScreenVideoState extends State<FullScreenVideo> {
       body: Builder(
         key: _scaffoldKey,
         builder: (context) {
-          if (!initialized) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return Chewie(
-            controller: _chewieController,
+          return FlickVideoPlayer(
+            flickManager: _flickManager,
           );
         },
       ),
@@ -51,34 +42,15 @@ class _FullScreenVideoState extends State<FullScreenVideo> {
   @override
   void initState() {
     super.initState();
-    _videoPlayerController =
-        VideoPlayerController.network(widget.attachment.assetUrl);
-    _videoPlayerController.initialize().whenComplete(() {
-      setState(() {
-        initialized = true;
-        _chewieController = ChewieController(
-          videoPlayerController: _videoPlayerController,
-          autoInitialize: false,
-          aspectRatio: _videoPlayerController.value.aspectRatio,
-        );
-      });
-    });
 
-    VoidCallback errorListener;
-    errorListener = () {
-      if (_videoPlayerController.value.hasError) {
-        Navigator.pop(context);
-        launchURL(_scaffoldKey.currentContext, widget.attachment.titleLink);
-      }
-      _videoPlayerController.removeListener(errorListener);
-    };
-    _videoPlayerController.addListener(errorListener);
+    _flickManager = FlickManager(
+        videoPlayerController:
+            VideoPlayerController.network(widget.attachment.assetUrl));
   }
 
   @override
   void dispose() {
-    _videoPlayerController?.dispose();
-    _chewieController?.dispose();
+    _flickManager?.dispose();
     super.dispose();
   }
 }
