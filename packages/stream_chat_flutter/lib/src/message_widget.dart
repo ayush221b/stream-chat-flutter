@@ -145,6 +145,8 @@ class MessageWidget extends StatefulWidget {
   /// The cache for the video controllers of attachments IDed as message ID + attachment index
   final Map<String, VideoPackage> videoPackages;
 
+  final bool showReadList;
+
   ///
   MessageWidget({
     Key key,
@@ -194,6 +196,7 @@ class MessageWidget extends StatefulWidget {
     this.allRead = false,
     this.onQuotedMessageTap,
     this.videoPackages,
+    this.showReadList = true,
   })  : attachmentBuilders = {
           'image': (context, message, attachment) {
             return ImageAttachment(
@@ -935,7 +938,7 @@ class _MessageWidgetState extends State<MessageWidget> {
       isMessageRead: isMessageRead,
       size: style.fontSize,
     );
-    if (isMessageRead) {
+    if (isMessageRead && (widget.showReadList ?? true)) {
       child = Row(
         children: [
           if (StreamChannel.of(context).channel.memberCount > 2)

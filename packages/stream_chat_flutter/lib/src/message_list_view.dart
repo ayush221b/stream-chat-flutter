@@ -126,6 +126,8 @@ class MessageListView extends StatefulWidget {
     this.messageHighlightColor,
     this.onShowMessage,
     this.showConnectionStateTile = false,
+    this.showReadList = true,
+    this.onUserAvatarTap,
   }) : super(key: key);
 
   /// Function used to build a custom message widget
@@ -184,6 +186,12 @@ class MessageListView extends StatefulWidget {
   final ShowMessageCallback onShowMessage;
 
   final bool showConnectionStateTile;
+
+  // Flag to control the display of read list below messages
+  final bool showReadList;
+
+  // Callback to execute when a user avatar is tapped
+  final void Function(User) onUserAvatarTap;
 
   @override
   _MessageListViewState createState() => _MessageListViewState();
@@ -652,7 +660,10 @@ class _MessageListViewState extends State<MessageListView> {
         return Center(
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: const CircularProgressIndicator(),
+            child: Container(
+              height: 0,
+              width: 0,
+            ),
           ),
         );
       },
@@ -748,6 +759,7 @@ class _MessageListViewState extends State<MessageListView> {
       showEditMessage: false,
       message: message,
       reverse: isMyMessage,
+      onUserAvatarTap: widget.onUserAvatarTap,
       showUsername: !isMyMessage,
       padding: const EdgeInsets.all(8.0),
       showSendingIndicator: false,
@@ -870,6 +882,7 @@ class _MessageListViewState extends State<MessageListView> {
       showTimestamp: showTimeStamp,
       showSendingIndicator: showSendingIndicator,
       showUserAvatar: showUserAvatar,
+      onUserAvatarTap: widget.onUserAvatarTap,
       onQuotedMessageTap: (quotedMessageId) async {
         final scrollToIndex = () {
           final index = messages.indexWhere((m) => m.id == quotedMessageId);

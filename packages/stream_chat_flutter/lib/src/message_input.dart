@@ -111,6 +111,9 @@ class MessageInput extends StatefulWidget {
     this.focusNode,
     this.quotedMessage,
     this.onQuotedMessageCleared,
+    this.inputTextStyle,
+    this.onChatInputChanged,
+    this.onSendButtonPress,
   }) : super(key: key);
 
   /// Message to edit
@@ -164,6 +167,15 @@ class MessageInput extends StatefulWidget {
 
   ///
   final VoidCallback onQuotedMessageCleared;
+
+  /// Custom textStyle for textfield
+  final TextStyle inputTextStyle;
+
+  /// Callback to fire when content of the input text field is changed
+  final VoidCallback onChatInputChanged;
+
+  /// Callback to fire on press of send button
+  final VoidCallback onSendButtonPress;
 
   @override
   MessageInputState createState() => MessageInputState();
@@ -437,11 +449,16 @@ class MessageInputState extends State<MessageInput> {
                   enabled: _inputEnabled,
                   minLines: null,
                   maxLines: null,
+                  onChanged: (value) {
+                    if (widget.onChatInputChanged != null) {
+                      widget.onChatInputChanged();
+                    }
+                  },
                   onSubmitted: (_) => sendMessage(),
                   keyboardType: widget.keyboardType,
                   controller: textEditingController,
                   focusNode: _focusNode,
-                  style: theme.textTheme.body,
+                  style: widget.inputTextStyle ?? theme.textTheme.body,
                   autofocus: false,
                   textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
@@ -2144,6 +2161,9 @@ class MessageInputState extends State<MessageInput> {
 
   /// Sends the current message
   void sendMessage() async {
+    if (widget.onSendButtonPress != null) {
+      widget.onSendButtonPress();
+    }
     var text = textEditingController.text.trim();
     if (text.isEmpty && _attachments.isEmpty) {
       return;
