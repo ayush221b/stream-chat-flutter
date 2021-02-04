@@ -46,7 +46,10 @@ dependencies:
   flutter_slidable: ^0.5.7
   clipboard: ^0.1.2+8
   image_gallery_saver: ^1.6.7
-  esys_flutter_share: ^1.0.2
+  esys_flutter_share:
+    git:
+      url: git://github.com/ayush221b/esys-flutter-share.git
+      ref: affbeaf63d220563fd2af2c1a477154bfeb44e72
   photo_manager: ^0.6.0
   transparent_image: ^1.0.0
   ezanimation: ^0.4.1
