@@ -50,9 +50,12 @@ class _FullScreenMediaState extends State<FullScreenMedia>
 
   List<VideoPackage> videoPackages = [];
 
+  GlobalKey<ScaffoldState> _fullScreenMediaScaffoldKey;
+
   @override
   void initState() {
     super.initState();
+    _fullScreenMediaScaffoldKey ??= GlobalKey<ScaffoldState>();
     _controller =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     _pageController = PageController(initialPage: widget.startIndex);
@@ -80,6 +83,7 @@ class _FullScreenMediaState extends State<FullScreenMedia>
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      key: _fullScreenMediaScaffoldKey,
       body: Stack(
         children: [
           AnimatedBuilder(
@@ -169,6 +173,7 @@ class _FullScreenMediaState extends State<FullScreenMedia>
               children: [
                 ImageHeader(
                   userName: widget.userName,
+                  fullScreenMediaScaffoldKey: _fullScreenMediaScaffoldKey,
                   sentAt: widget.message.createdAt == null
                       ? ''
                       : 'Sent ${getDay(widget.message.createdAt)} at ${Jiffy(widget.sentAt.toLocal()).format('HH:mm')}',
@@ -271,7 +276,7 @@ class VideoPackage {
   ChewieController get chewieController => _chewieController;
 
   void dispose() {
-    _videoPlayerController.dispose();
-    _chewieController.dispose();
+    _videoPlayerController?.dispose();
+    _chewieController?.dispose();
   }
 }

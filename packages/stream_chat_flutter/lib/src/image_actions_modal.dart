@@ -18,13 +18,16 @@ class ImageActionsModal extends StatelessWidget {
   final currentIndex;
   final VoidCallback onShowMessage;
 
+  final GlobalKey<ScaffoldState> fullScreenMediaScaffoldKey;
+
   ImageActionsModal(
       {this.message,
       this.userName,
       this.sentAt,
       this.urls,
       this.currentIndex,
-      this.onShowMessage});
+      this.onShowMessage,
+      @required this.fullScreenMediaScaffoldKey});
 
   @override
   Widget build(BuildContext context) {
@@ -53,26 +56,27 @@ class ImageActionsModal extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildButton(
-                    context,
-                    'Reply',
-                    StreamSvgIcon.iconCurveLineLeftUp(
-                      size: 24.0,
-                      color: StreamChatTheme.of(context).colorTheme.grey,
-                    ),
-                    () {
-                      Navigator.pop(context, ReturnActionType.reply);
-                    },
-                  ),
-                  _buildButton(
-                    context,
-                    'Show in Chat',
-                    StreamSvgIcon.eye(
-                      size: 24.0,
-                      color: StreamChatTheme.of(context).colorTheme.black,
-                    ),
-                    onShowMessage,
-                  ),
+                  /// -- Disable Until the usefulness is satisfied --
+                  // _buildButton(
+                  //   context,
+                  //   'Reply',
+                  //   StreamSvgIcon.iconCurveLineLeftUp(
+                  //     size: 24.0,
+                  //     color: StreamChatTheme.of(context).colorTheme.grey,
+                  //   ),
+                  //   () {
+                  //     Navigator.pop(context, ReturnActionType.reply);
+                  //   },
+                  // ),
+                  // _buildButton(
+                  //   context,
+                  //   'Show in Chat',
+                  //   StreamSvgIcon.eye(
+                  //     size: 24.0,
+                  //     color: StreamChatTheme.of(context).colorTheme.black,
+                  //   ),
+                  //   onShowMessage,
+                  // ),
                   _buildButton(
                     context,
                     'Save ${urls[currentIndex].type == 'video' ? 'Video' : 'Image'}',
@@ -89,8 +93,12 @@ class ImageActionsModal extends StatelessWidget {
 
                       if (urls[currentIndex].type == 'video') {
                         await _saveVideo(url);
+                        fullScreenMediaScaffoldKey.currentState.showSnackBar(
+                            SnackBar(content: Text('Saved Video to Gallery')));
                       } else {
                         await _saveImage(url);
+                        fullScreenMediaScaffoldKey.currentState.showSnackBar(
+                            SnackBar(content: Text('Saved Image to Gallery')));
                       }
                     },
                   ),

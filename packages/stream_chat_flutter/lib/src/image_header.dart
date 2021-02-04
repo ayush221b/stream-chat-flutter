@@ -30,20 +30,23 @@ class ImageHeader extends StatelessWidget implements PreferredSizeWidget {
   final List<Attachment> urls;
   final currentIndex;
 
+  final GlobalKey<ScaffoldState> fullScreenMediaScaffoldKey;
+
   /// Creates a channel header
-  ImageHeader({
-    Key key,
-    this.message,
-    this.urls,
-    this.currentIndex,
-    this.showBackButton = true,
-    this.onBackPressed,
-    this.onShowMessage,
-    this.onTitleTap,
-    this.onImageTap,
-    this.userName = '',
-    this.sentAt = '',
-  })  : preferredSize = Size.fromHeight(kToolbarHeight),
+  ImageHeader(
+      {Key key,
+      this.message,
+      this.urls,
+      this.currentIndex,
+      this.showBackButton = true,
+      this.onBackPressed,
+      this.onShowMessage,
+      this.onTitleTap,
+      this.onImageTap,
+      this.userName = '',
+      this.sentAt = '',
+      @required this.fullScreenMediaScaffoldKey})
+      : preferredSize = Size.fromHeight(kToolbarHeight),
         super(key: key);
 
   @override
@@ -113,6 +116,7 @@ class ImageHeader extends StatelessWidget implements PreferredSizeWidget {
           child: ImageActionsModal(
             userName: userName,
             sentAt: sentAt,
+            fullScreenMediaScaffoldKey: fullScreenMediaScaffoldKey,
             message: message,
             urls: urls,
             currentIndex: currentIndex,
