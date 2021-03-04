@@ -879,6 +879,7 @@ class _MessageWidgetState extends State<MessageWidget> {
                     message: widget.message,
                     onShowMessage: widget.onShowMessage,
                     onReturnAction: widget.onReturnAction,
+                    onAttachmentMessageClick: widget.onAttachmentMessageClick,
                     videoPackage: package,
                   ),
                 );

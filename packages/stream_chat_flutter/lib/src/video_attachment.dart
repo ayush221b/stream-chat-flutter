@@ -96,16 +96,8 @@ class _VideoAttachmentState extends State<VideoAttachment> {
                 fit: BoxFit.none,
                 child: Stack(
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-                        if (widget.onAttachmentMessageClick != null) {
-                          widget
-                              .onAttachmentMessageClick(widget.attachment.type);
-                        }
-                      },
-                      child: Chewie(
-                        controller: widget.videoPackage.chewieController,
-                      ),
+                    Chewie(
+                      controller: widget.videoPackage.chewieController,
                     ),
                     Positioned.fill(
                       child: Center(
