@@ -118,6 +118,7 @@ class MessageInput extends StatefulWidget {
     this.onSendButtonPress,
     this.onAttachButtonPress,
     this.onAttachmentPickerSelect,
+    this.onCommandButtonPress,
   }) : super(key: key);
 
   /// Message to edit
@@ -183,6 +184,9 @@ class MessageInput extends StatefulWidget {
 
   /// Callback to fire on press of attachment button
   final VoidCallback onAttachButtonPress;
+
+  /// Callback to fire on press of command button
+  final VoidCallback onCommandButtonPress;
 
   /// Callback to fire on press any specific type of attachment picker selection
   final void Function(AttachmentPickerType) onAttachmentPickerSelect;
@@ -1795,6 +1799,9 @@ class MessageInputState extends State<MessageInput> {
       ),
       splashRadius: 24,
       onPressed: () async {
+        if (widget.onCommandButtonPress != null) {
+          widget.onCommandButtonPress();
+        }
         if (_openFilePickerSection) {
           setState(() {
             _animateContainer = false;

@@ -13,6 +13,8 @@ class VideoAttachment extends StatefulWidget {
   final ShowMessageCallback onShowMessage;
   final ValueChanged<ReturnActionType> onReturnAction;
   final VideoPackage videoPackage;
+  // Callback to execute when an attachment in a message is clicked
+  final void Function(String) onAttachmentMessageClick;
 
   VideoAttachment({
     Key key,
@@ -23,6 +25,7 @@ class VideoAttachment extends StatefulWidget {
     this.size,
     this.onShowMessage,
     this.onReturnAction,
+    this.onAttachmentMessageClick,
   }) : super(key: key);
 
   @override
@@ -56,6 +59,9 @@ class _VideoAttachmentState extends State<VideoAttachment> {
 
     return GestureDetector(
       onTap: () async {
+        if (widget.onAttachmentMessageClick != null) {
+          widget.onAttachmentMessageClick(widget.attachment.type);
+        }
         final channel = StreamChannel.of(context).channel;
 
         var res = await Navigator.push(

@@ -14,6 +14,8 @@ class GiphyAttachment extends StatelessWidget {
   final Size size;
   final ShowMessageCallback onShowMessage;
   final ValueChanged<ReturnActionType> onReturnAction;
+  // Callback to execute when an attachment in a message is clicked
+  final void Function(String) onAttachmentMessageClick;
 
   const GiphyAttachment({
     Key key,
@@ -23,6 +25,7 @@ class GiphyAttachment extends StatelessWidget {
     this.size,
     this.onShowMessage,
     this.onReturnAction,
+    this.onAttachmentMessageClick,
   }) : super(key: key);
 
   @override
@@ -305,6 +308,9 @@ class GiphyAttachment extends StatelessWidget {
   }
 
   void _onImageTap(BuildContext context) async {
+    if (onAttachmentMessageClick != null) {
+      onAttachmentMessageClick(attachment.type);
+    }
     var res = await Navigator.push(context, MaterialPageRoute(
       builder: (_) {
         final channel = StreamChannel.of(context).channel;

@@ -15,6 +15,8 @@ class ImageAttachment extends StatelessWidget {
   final bool showTitle;
   final ShowMessageCallback onShowMessage;
   final ValueChanged<ReturnActionType> onReturnAction;
+  // Callback to execute when an attachment in a message is clicked
+  final void Function(String) onAttachmentMessageClick;
 
   const ImageAttachment({
     Key key,
@@ -25,6 +27,7 @@ class ImageAttachment extends StatelessWidget {
     this.showTitle = true,
     this.onShowMessage,
     this.onReturnAction,
+    this.onAttachmentMessageClick,
   }) : super(key: key);
 
   @override
@@ -45,6 +48,9 @@ class ImageAttachment extends StatelessWidget {
               Expanded(
                 child: GestureDetector(
                   onTap: () async {
+                    if (onAttachmentMessageClick != null) {
+                      onAttachmentMessageClick(attachment.type);
+                    }
                     var result = await Navigator.push(
                       context,
                       MaterialPageRoute(

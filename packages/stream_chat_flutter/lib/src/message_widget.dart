@@ -147,6 +147,9 @@ class MessageWidget extends StatefulWidget {
 
   final bool showReadList;
 
+  // Callback to execute when an attachment in a message is clicked
+  final void Function(String) onAttachmentMessageClick;
+
   ///
   MessageWidget({
     Key key,
@@ -197,6 +200,7 @@ class MessageWidget extends StatefulWidget {
     this.onQuotedMessageTap,
     this.videoPackages,
     this.showReadList = true,
+    this.onAttachmentMessageClick,
   })  : attachmentBuilders = {
           'image': (context, message, attachment) {
             return ImageAttachment(
@@ -209,6 +213,7 @@ class MessageWidget extends StatefulWidget {
               ),
               onShowMessage: onShowMessage,
               onReturnAction: onReturnAction,
+              onAttachmentMessageClick: onAttachmentMessageClick,
             );
           },
           'video': (context, message, attachment) {
@@ -222,6 +227,7 @@ class MessageWidget extends StatefulWidget {
               message: message,
               onShowMessage: onShowMessage,
               onReturnAction: onReturnAction,
+              onAttachmentMessageClick: onAttachmentMessageClick,
             );
           },
           'giphy': (context, message, attachment) {
@@ -235,11 +241,13 @@ class MessageWidget extends StatefulWidget {
               ),
               onShowMessage: onShowMessage,
               onReturnAction: onReturnAction,
+              onAttachmentMessageClick: onAttachmentMessageClick,
             );
           },
           'file': (context, message, attachment) {
             return FileAttachment(
               attachment: attachment,
+              onAttachmentMessageClick: onAttachmentMessageClick,
               size: Size(
                 MediaQuery.of(context).size.width * 0.8,
                 MediaQuery.of(context).size.height * 0.3,

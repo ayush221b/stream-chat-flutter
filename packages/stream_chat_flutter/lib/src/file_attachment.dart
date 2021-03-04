@@ -20,6 +20,8 @@ class FileAttachment extends StatefulWidget {
   final Widget trailing;
   final FileAttachmentType attachmentType;
   final PlatformFile file;
+  // Callback to execute when an attachment in a message is clicked
+  final void Function(String) onAttachmentMessageClick;
 
   const FileAttachment({
     Key key,
@@ -28,6 +30,7 @@ class FileAttachment extends StatefulWidget {
     this.trailing,
     this.attachmentType = FileAttachmentType.online,
     this.file,
+    this.onAttachmentMessageClick,
   }) : super(key: key);
 
   @override
@@ -117,6 +120,9 @@ class _FileAttachmentState extends State<FileAttachment> {
                     visualDensity: VisualDensity.compact,
                     splashRadius: 16,
                     onPressed: () {
+                      if (widget.onAttachmentMessageClick != null) {
+                        widget.onAttachmentMessageClick(widget.attachment.type);
+                      }
                       launchURL(context, widget.attachment.assetUrl);
                     },
                   ),

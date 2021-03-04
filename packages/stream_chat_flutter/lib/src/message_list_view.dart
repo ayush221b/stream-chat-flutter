@@ -128,6 +128,7 @@ class MessageListView extends StatefulWidget {
     this.showConnectionStateTile = false,
     this.showReadList = true,
     this.onUserAvatarTap,
+    this.onAttachmentMessageClick,
   }) : super(key: key);
 
   /// Function used to build a custom message widget
@@ -192,6 +193,9 @@ class MessageListView extends StatefulWidget {
 
   // Callback to execute when a user avatar is tapped
   final void Function(User) onUserAvatarTap;
+
+  // Callback to execute when an attachment in a message is clicked
+  final void Function(String) onAttachmentMessageClick;
 
   @override
   _MessageListViewState createState() => _MessageListViewState();
@@ -873,6 +877,7 @@ class _MessageListViewState extends State<MessageListView> {
     Widget child = MessageWidget(
       key: ValueKey<String>('MESSAGE-${message.id}'),
       message: message,
+      onAttachmentMessageClick: widget.onAttachmentMessageClick,
       reverse: isMyMessage,
       showReactions: !message.isDeleted,
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
