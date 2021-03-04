@@ -93,6 +93,7 @@ class UrlAttachment extends StatelessWidget {
                         .textTheme
                         .body
                         .copyWith(fontWeight: FontWeight.w400),
+                    maxLines: 2,
                   ),
               ],
             ),
