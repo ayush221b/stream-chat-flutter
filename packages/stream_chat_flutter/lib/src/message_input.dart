@@ -381,7 +381,7 @@ class MessageInputState extends State<MessageInput> {
             : CrossFadeState.showSecond,
         firstChild: _buildSendButton(context),
         secondChild: _buildIdleSendButton(context),
-        duration: Duration(milliseconds: 300),
+        duration: Duration(milliseconds: 5),
         alignment: Alignment.center,
       ),
     );
