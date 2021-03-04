@@ -308,9 +308,6 @@ class GiphyAttachment extends StatelessWidget {
   }
 
   void _onImageTap(BuildContext context) async {
-    if (onAttachmentMessageClick != null) {
-      onAttachmentMessageClick(attachment.type);
-    }
     var res = await Navigator.push(context, MaterialPageRoute(
       builder: (_) {
         final channel = StreamChannel.of(context).channel;
@@ -339,6 +336,9 @@ class GiphyAttachment extends StatelessWidget {
     return Container(
       child: GestureDetector(
         onTap: () async {
+          if (onAttachmentMessageClick != null) {
+            onAttachmentMessageClick(attachment.type);
+          }
           var res =
               await Navigator.push(context, MaterialPageRoute(builder: (_) {
             var channel = StreamChannel.of(context).channel;

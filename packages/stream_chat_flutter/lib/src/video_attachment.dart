@@ -59,11 +59,10 @@ class _VideoAttachmentState extends State<VideoAttachment> {
 
     return GestureDetector(
       onTap: () async {
+        final channel = StreamChannel.of(context).channel;
         if (widget.onAttachmentMessageClick != null) {
           widget.onAttachmentMessageClick(widget.attachment.type);
         }
-        final channel = StreamChannel.of(context).channel;
-
         var res = await Navigator.push(
           context,
           MaterialPageRoute(
@@ -97,8 +96,16 @@ class _VideoAttachmentState extends State<VideoAttachment> {
                 fit: BoxFit.none,
                 child: Stack(
                   children: <Widget>[
-                    Chewie(
-                      controller: widget.videoPackage.chewieController,
+                    GestureDetector(
+                      onTap: () {
+                        if (widget.onAttachmentMessageClick != null) {
+                          widget
+                              .onAttachmentMessageClick(widget.attachment.type);
+                        }
+                      },
+                      child: Chewie(
+                        controller: widget.videoPackage.chewieController,
+                      ),
                     ),
                     Positioned.fill(
                       child: Center(
