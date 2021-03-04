@@ -33,6 +33,8 @@ typedef AttachmentThumbnailBuilder = Widget Function(
   _SendingAttachment,
 );
 
+enum AttachmentPickerType { GALLERY, FILES, CAPTURE_IMAGE, RECORD_VIDEO }
+
 enum ActionsLocation {
   left,
   right,
@@ -114,6 +116,8 @@ class MessageInput extends StatefulWidget {
     this.inputTextStyle,
     this.onChatInputChanged,
     this.onSendButtonPress,
+    this.onAttachButtonPress,
+    this.onAttachmentPickerSelect,
   }) : super(key: key);
 
   /// Message to edit
@@ -176,6 +180,12 @@ class MessageInput extends StatefulWidget {
 
   /// Callback to fire on press of send button
   final VoidCallback onSendButtonPress;
+
+  /// Callback to fire on press of attachment button
+  final VoidCallback onAttachButtonPress;
+
+  /// Callback to fire on press any specific type of attachment picker selection
+  final void Function(AttachmentPickerType) onAttachmentPickerSelect;
 
   @override
   MessageInputState createState() => MessageInputState();
@@ -835,6 +845,10 @@ class MessageInputState extends State<MessageInput> {
                   onPressed: _attachmentContainsFile && _attachments.isNotEmpty
                       ? null
                       : () {
+                          if (widget.onAttachmentPickerSelect != null) {
+                            widget.onAttachmentPickerSelect(
+                                AttachmentPickerType.GALLERY);
+                          }
                           setState(() {
                             _filePickerIndex = 0;
                           });
@@ -848,6 +862,10 @@ class MessageInputState extends State<MessageInput> {
                   onPressed: !_attachmentContainsFile && _attachments.isNotEmpty
                       ? null
                       : () {
+                          if (widget.onAttachmentPickerSelect != null) {
+                            widget.onAttachmentPickerSelect(
+                                AttachmentPickerType.FILES);
+                          }
                           pickFile(DefaultAttachmentTypes.file, false);
                         },
                 ),
@@ -859,6 +877,10 @@ class MessageInputState extends State<MessageInput> {
                   onPressed: _attachmentContainsFile && _attachments.isNotEmpty
                       ? null
                       : () {
+                          if (widget.onAttachmentPickerSelect != null) {
+                            widget.onAttachmentPickerSelect(
+                                AttachmentPickerType.CAPTURE_IMAGE);
+                          }
                           pickFile(DefaultAttachmentTypes.image, true);
                         },
                 ),
@@ -871,6 +893,10 @@ class MessageInputState extends State<MessageInput> {
                   onPressed: _attachmentContainsFile && _attachments.isNotEmpty
                       ? null
                       : () {
+                          if (widget.onAttachmentPickerSelect != null) {
+                            widget.onAttachmentPickerSelect(
+                                AttachmentPickerType.RECORD_VIDEO);
+                          }
                           pickFile(DefaultAttachmentTypes.video, true);
                         },
                 ),
@@ -1807,6 +1833,9 @@ class MessageInputState extends State<MessageInput> {
       ),
       splashRadius: 24,
       onPressed: () async {
+        if (widget.onAttachButtonPress != null) {
+          widget.onAttachButtonPress();
+        }
         _emojiOverlay?.remove();
         _emojiOverlay = null;
         _commandsOverlay?.remove();
