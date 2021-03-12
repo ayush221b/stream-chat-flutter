@@ -17,7 +17,10 @@ dependencies:
   rxdart: ^0.25.0
   scrollable_positioned_list: ^0.1.8
   jiffy: ^3.0.1
-  flutter_svg: ^0.19.1
+  flutter_svg: #^0.19.0
+    git:
+      url: https://github.com/ayush221b/flutter_svg.git
+      ref: 302e6a4c98db8d51ba49cbac8a8dc174608c3cad
   flutter_portal: ^0.3.0
   cached_network_image: ^2.5.0
   shimmer: ^1.1.2
