@@ -20,7 +20,7 @@ dependencies:
   flutter_svg: #^0.19.0
     git:
       url: https://github.com/ayush221b/flutter_svg.git
-      ref: 302e6a4c98db8d51ba49cbac8a8dc174608c3cad
+      ref: b6f0a78ed20abc5bcdcb046fb99deb9305926ffb
   flutter_portal: ^0.3.0
   cached_network_image: ^2.5.0
   shimmer: ^1.1.2
